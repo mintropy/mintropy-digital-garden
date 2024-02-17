@@ -3,3 +3,14 @@
 ---
 
 # Mintropy Digital Garden
+
+## MOC
+
+### Python
+
+- [[MOC/DRF\|DRF]]
+
+### [[MOC/Kotlin\|Kotlin]]
+
+- 
+
