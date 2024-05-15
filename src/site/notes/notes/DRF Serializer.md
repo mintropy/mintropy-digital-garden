@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/drf-serializer/"}
+{"dg-publish":true,"permalink":"/notes/drf-serializer/","tags":["Python/DRF/serializer"]}
 ---
 
 # DRF Serializer
