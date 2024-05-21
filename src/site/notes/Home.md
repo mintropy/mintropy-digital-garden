@@ -10,7 +10,7 @@
 
 - [[MOC/정렬 알고리즘\|정렬 알고리즘]]
 
-### Python
+### [[MOC/Python\|Python]]
 
 - [[MOC/DRF\|DRF]]
 
