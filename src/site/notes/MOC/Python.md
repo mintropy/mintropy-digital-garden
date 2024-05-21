@@ -4,9 +4,10 @@
 
 # Python
 
-| tags                                     | rows.file.link                                                                                                                    |
-| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| <ul><li>#Python</li></ul>                | <ul><li>[[notes/Python Dunder Method.md\\|Python Dunder Method]]</li></ul>                                                        |
-| <ul><li>#Python/DRF/serializer</li></ul> | <ul><li>[[notes/DRF Serializer Fields.md\\|DRF Serializer Fields]]</li><li>[[notes/DRF Serializer.md\\|DRF Serializer]]</li></ul> |
+| File                                                      | tags                                     |
+| --------------------------------------------------------- | ---------------------------------------- |
+| [[notes/DRF Serializer Fields\|DRF Serializer Fields]] | <ul><li>#Python/DRF/serializer</li></ul> |
+| [[notes/DRF Serializer\|DRF Serializer]]               | <ul><li>#Python/DRF/serializer</li></ul> |
+| [[notes/Python Dunder Method\|Python Dunder Method]]   | <ul><li>#Python</li></ul>                |
 
 { .block-language-dataview}
