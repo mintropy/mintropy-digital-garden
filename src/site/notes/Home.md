@@ -12,6 +12,7 @@
 
 ### [[MOC/Python\|Python]]
 
+- [[MOC/Django\|Django]]
 - [[MOC/DRF\|DRF]]
 
 ### [[MOC/Kotlin\|Kotlin]]
