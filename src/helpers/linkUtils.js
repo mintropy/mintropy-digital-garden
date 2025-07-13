@@ -30,18 +30,24 @@ function extractLinks(content) {
   ];
 }
 
-function getGraph(data) {
+async function getGraph(data) {
   let nodes = {};
   let links = [];
   let stemURLs = {};
   let homeAlias = "/";
-  (data.collections.note || []).forEach((v, idx) => {
-    let fpath = v.filePathStem.replace("/notes/", "");
-    let parts = fpath.split("/");
-    let group = "none";
-    if (parts.length >= 3) {
-      group = parts[parts.length - 2];
-    }
+
+  const notes = data.collections.note || [];
+
+  for (let idx = 0; idx < notes.length; idx++) {
+    const v = notes[idx];
+
+    const fpath = v.filePathStem.replace("/notes/", "");
+    const parts = fpath.split("/");
+    const group = parts.length >= 3 ? parts[parts.length - 2] : "none";
+
+    // 비동기적으로 content 읽기
+    const content = await v.template.read();
+
     nodes[v.url] = {
       id: idx,
       title: v.data.title || v.fileSlug,
@@ -51,42 +57,51 @@ function getGraph(data) {
         v.data["dg-home"] ||
         (v.data.tags && v.data.tags.indexOf("gardenEntry") > -1) ||
         false,
-      outBound: extractLinks(v.template.frontMatter.content),
+      outBound: extractLinks(content),
       neighbors: new Set(),
       backLinks: new Set(),
       noteIcon: v.data.noteIcon || process.env.NOTE_ICON_DEFAULT,
       hide: v.data.hideInGraph || false,
     };
     stemURLs[fpath] = v.url;
+
     if (
       v.data["dg-home"] ||
       (v.data.tags && v.data.tags.indexOf("gardenEntry") > -1)
     ) {
       homeAlias = v.url;
     }
-  });
-  Object.values(nodes).forEach((node) => {
-    let outBound = new Set();
+  }
+
+  // 연결 처리
+  for (const node of Object.values(nodes)) {
+    const outBound = new Set();
+
     node.outBound.forEach((olink) => {
-      let link = (stemURLs[olink] || olink).split("#")[0];
+      const link = (stemURLs[olink] || olink).split("#")[0];
       outBound.add(link);
     });
+
     node.outBound = Array.from(outBound);
+
     node.outBound.forEach((link) => {
-      let n = nodes[link];
-      if (n) {
-        n.neighbors.add(node.url);
-        n.backLinks.add(node.url);
-        node.neighbors.add(n.url);
-        links.push({ source: node.id, target: n.id });
+      const targetNode = nodes[link];
+      if (targetNode) {
+        targetNode.neighbors.add(node.url);
+        targetNode.backLinks.add(node.url);
+        node.neighbors.add(targetNode.url);
+        links.push({ source: node.id, target: targetNode.id });
       }
     });
-  });
-  Object.keys(nodes).map((k) => {
+  }
+
+  // neighbors, backLinks 정리
+  Object.keys(nodes).forEach((k) => {
     nodes[k].neighbors = Array.from(nodes[k].neighbors);
     nodes[k].backLinks = Array.from(nodes[k].backLinks);
     nodes[k].size = nodes[k].neighbors.length;
   });
+
   return {
     homeAlias,
     nodes,
